@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گزارش عملکرد کمپین‌های جانتک | داشبورد اجرایی یکتانت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --primary:#0B1F33;
+  --primary-2:#16324D;
+  --secondary:#1F4E79;
+  --secondary-light:#E7EFF5;
+  --accent:#00A6A6;
+  --accent-light:#E1F5F5;
+  --accent-dark:#00807F;
+  --success:#2E7D32;
+  --success-bg:#E9F5EA;
+  --warning:#F59E0B;
+  --warning-bg:#FFF6E5;
+  --danger:#C62828;
+  --danger-bg:#FBE9E8;
+  --bg:#F7F9FC;
+  --surface:#FFFFFF;
+  --text:#17202A;
+  --text-soft:#5B6573;
+  --text-faint:#93A0AD;
+  --border:#D9E1EA;
+  --radius-lg:18px;
+  --radius-md:13px;
+  --radius-sm:8px;
+  --shadow-sm:0 1px 3px rgba(11,31,51,.07), 0 1px 2px rgba(11,31,51,.05);
+  --shadow-md:0 8px 22px rgba(11,31,51,.09), 0 2px 6px rgba(11,31,51,.05);
+  --shadow-lg:0 20px 44px rgba(11,31,51,.14), 0 6px 14px rgba(11,31,51,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Vazirmatn','IRANSansX',Tahoma,sans-serif;
+  background:
+    radial-gradient(1100px 480px at 88% -8%, rgba(0,166,166,.08), transparent 60%),
+    radial-gradient(900px 460px at -8% 0%, rgba(11,31,51,.06), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent-light); color:var(--accent-dark);}
+.num{font-variant-numeric:tabular-nums; direction:ltr; unicode-bidi:isolate;}
+.wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
+
+/* topbar */
+.topbar{position:sticky; top:0; z-index:60; background:rgba(247,249,252,.88); backdrop-filter:blur(14px) saturate(160%); border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:1280px; margin:0 auto; padding:16px 28px 0 28px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;}
+.brand{display:flex; align-items:center; gap:12px;}
+.brand-mark{width:44px; height:44px; border-radius:12px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; box-shadow:var(--shadow-sm); flex-shrink:0;}
+.brand-text h1{font-size:15.5px; font-weight:800; letter-spacing:-.01em;}
+.brand-text p{font-size:11.5px; color:var(--text-soft); margin-top:1px;}
+.topbar-meta{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.period-pill{font-size:11.5px; background:var(--secondary-light); color:var(--secondary); padding:7px 13px; border-radius:999px; font-weight:600; white-space:nowrap;}
+.status-pill{font-size:11.5px; background:var(--warning-bg); color:#8A5A00; padding:7px 13px; border-radius:999px; font-weight:700; white-space:nowrap; border:1px solid rgba(245,158,11,.35);}
+
+/* tabs */
+.tabs{max-width:1280px; margin:14px auto 0 auto; padding:0 28px; display:flex; gap:5px; overflow-x:auto; scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{border:none; background:transparent; cursor:pointer; font-family:inherit; font-size:13px; font-weight:700; color:var(--text-soft); padding:10px 16px; border-radius:11px 11px 0 0; white-space:nowrap; position:relative; transition:all .2s ease;}
+.tab-btn:hover{color:var(--primary); background:rgba(11,31,51,.04);}
+.tab-btn.active{color:var(--primary); background:var(--surface); box-shadow:0 -2px 10px rgba(11,31,51,.06);}
+.tab-btn.active::after{content:""; position:absolute; right:16px; left:16px; bottom:-1px; height:3px; background:var(--accent); border-radius:3px 3px 0 0;}
+
+main{max-width:1280px; margin:0 auto; padding:22px 28px 60px 28px;}
+.tab-panel{display:none; animation:fadein .35s ease;}
+.tab-panel.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+section{margin-bottom:34px;}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
+.section-head h2{font-size:17px; font-weight:800;}
+.section-head .hint{font-size:12px; color:var(--text-faint);}
+.section-sub{font-size:12.8px; color:var(--text-soft); margin-top:-8px; margin-bottom:16px; line-height:1.9; text-align:justify; text-align-last:right;}
+
+/* grid */
+.grid{display:grid; gap:16px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+.grid-5{grid-template-columns:repeat(5,1fr);}
+@media(max-width:980px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr);} .grid-3{grid-template-columns:repeat(2,1fr);} .grid-2{grid-template-columns:1fr;}}
+@media(max-width:640px){.grid-4,.grid-5,.grid-3{grid-template-columns:1fr;}}
+
+.card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow-sm);}
+
+/* kpi cards */
+.kpi-card{position:relative; overflow:hidden;}
+.kpi-card .label{font-size:12px; color:var(--text-soft); font-weight:700; display:flex; align-items:center; justify-content:space-between;}
+.kpi-card .value{font-size:26px; font-weight:800; margin-top:9px; letter-spacing:-.02em;}
+.kpi-card .sub{font-size:11.5px; margin-top:7px; color:var(--text-soft); line-height:1.6;}
+.kpi-card .badge{position:absolute; top:16px; left:16px; width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--secondary-light); color:var(--secondary);}
+
+/* data confidence badges */
+.tag-badge{display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap;}
+.tag-verified{background:var(--success-bg); color:#1E5C22;}
+.tag-calc{background:var(--secondary-light); color:var(--secondary);}
+.tag-validate{background:var(--warning-bg); color:#8A5A00;}
+.tag-hypothesis{background:#EFEAFB; color:#5B3EA6;}
+.tag-missing{background:var(--danger-bg); color:var(--danger);}
+
+/* callouts */
+.callout{border-radius:var(--radius-md); padding:15px 17px; display:flex; gap:11px; align-items:flex-start; border:1px solid transparent;}
+.callout .ic{font-size:17px; margin-top:1px; flex-shrink:0;}
+.callout b{display:block; font-size:13px; margin-bottom:3px;}
+.callout p{font-size:12.5px; color:var(--text-soft); line-height:1.8; text-align:justify; text-align-last:right;}
+.callout.info{background:var(--secondary-light); border-color:rgba(31,78,121,.18);}
+.callout.info b{color:var(--secondary);}
+.callout.success{background:var(--success-bg); border-color:rgba(46,125,50,.2);}
+.callout.success b{color:var(--success);}
+.callout.warning{background:var(--warning-bg); border-color:rgba(245,158,11,.35);}
+.callout.warning b{color:#8A5A00;}
+.callout.danger{background:var(--danger-bg); border-color:rgba(198,40,40,.22);}
+.callout.danger b{color:var(--danger);}
+.callout.accent{background:var(--accent-light); border-color:rgba(0,166,166,.28);}
+.callout.accent b{color:var(--accent-dark);}
+
+/* progress bars */
+.pbar-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.pbar-row .name{font-size:12px; width:150px; flex-shrink:0; color:var(--text-soft); font-weight:600;}
+.pbar-track{flex:1; height:9px; background:var(--secondary-light); border-radius:999px; overflow:hidden;}
+.pbar-fill{height:100%; border-radius:999px;}
+.pbar-row .val{font-size:12px; width:110px; flex-shrink:0; font-weight:700; text-align:left;}
+
+/* tables */
+.table-wrap{overflow-x:auto; border-radius:var(--radius-md); border:1px solid var(--border);}
+table{width:100%; border-collapse:collapse; font-size:12.5px; min-width:640px;}
+thead th{background:var(--primary); color:#fff; font-weight:700; text-align:right; padding:11px 13px; white-space:nowrap; font-size:11.8px;}
+tbody td{padding:10px 13px; border-bottom:1px solid var(--border); white-space:nowrap; color:var(--text);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:var(--bg);}
+tbody tr.total-row{background:var(--secondary-light); font-weight:800;}
+.chip{display:inline-block; padding:2px 9px; border-radius:999px; font-size:10.8px; font-weight:700;}
+.chip-good{background:var(--success-bg); color:var(--success);}
+.chip-bad{background:var(--danger-bg); color:var(--danger);}
+.chip-mid{background:var(--warning-bg); color:#8A5A00;}
+
+/* chart holder */
+.chart-holder{position:relative; height:290px;}
+.chart-holder.short{height:210px;}
+.chart-holder.tall{height:360px;}
+.chart-card h3{font-size:13.5px; font-weight:800; margin-bottom:2px;}
+.chart-card .csrc{font-size:10.5px; color:var(--text-faint); margin-bottom:12px;}
+
+/* funnel */
+.funnel{display:flex; flex-direction:column; gap:8px;}
+.funnel-step{display:flex; align-items:center; gap:14px;}
+.funnel-bar{height:44px; border-radius:10px; background:linear-gradient(90deg,var(--primary),var(--secondary)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:13.5px; box-shadow:var(--shadow-sm); transition:width .4s ease;}
+.funnel-meta{width:230px; flex-shrink:0; font-size:12px; color:var(--text-soft);}
+.funnel-meta b{display:block; font-size:13px; color:var(--text); font-weight:700;}
+.funnel-rate{font-size:11px; color:var(--text-faint); margin-top:14px; padding-right:2px;}
+
+/* rec cards */
+.rec-card{border-radius:var(--radius-lg); border:1px solid var(--border); padding:20px; background:var(--surface); box-shadow:var(--shadow-sm); display:flex; flex-direction:column; height:100%;}
+.rec-card .rank{width:30px; height:30px; border-radius:9px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; margin-bottom:12px;}
+.rec-card h4{font-size:14.5px; font-weight:800; margin-bottom:8px; line-height:1.5;}
+.rec-card p{font-size:12.3px; color:var(--text-soft); line-height:1.8; margin-bottom:12px; text-align:justify; text-align-last:right;}
+.rec-meta{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:12px; border-top:1px solid var(--border);}
+.meta-chip{font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:8px; background:var(--bg); color:var(--text-soft); border:1px solid var(--border);}
+
+/* priority matrix */
+.matrix{display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:12px; height:420px; position:relative;}
+.matrix-cell{border-radius:var(--radius-md); padding:14px; position:relative; overflow:auto;}
+.matrix-cell h5{font-size:11.5px; font-weight:800; margin-bottom:8px; color:var(--text-soft);}
+.matrix .q1{background:var(--success-bg);}
+.matrix .q2{background:var(--secondary-light);}
+.matrix .q3{background:var(--warning-bg);}
+.matrix .q4{background:#F2F2F5;}
+.mchip{display:block; background:#fff; border:1px solid var(--border); border-radius:9px; padding:8px 10px; font-size:11.5px; font-weight:700; margin-bottom:7px; box-shadow:var(--shadow-sm);}
+.axis-label{position:absolute; font-size:10.5px; font-weight:700; color:var(--text-faint);}
+
+/* scenario cards */
+.scenario-card{border-radius:var(--radius-lg); border:2px solid var(--border); padding:22px; background:var(--surface); position:relative;}
+.scenario-card.base{border-color:var(--accent);}
+.scenario-card .stag{position:absolute; top:-12px; right:20px; background:var(--primary); color:#fff; font-size:11px; font-weight:800; padding:4px 12px; border-radius:999px;}
+.scenario-card.base .stag{background:var(--accent);}
+.scenario-card h4{font-size:15px; font-weight:800; margin-bottom:14px; margin-top:6px;}
+.srow{display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px dashed var(--border); font-size:12.5px;}
+.srow:last-child{border-bottom:none;}
+.srow .k{color:var(--text-soft);}
+.srow .v{font-weight:800;}
+
+footer{border-top:1px solid var(--border); padding:26px 28px 40px; text-align:center; color:var(--text-faint); font-size:11.5px;}
+
+@media print{
+  .topbar,.tabs{position:static;}
+  .tab-panel{display:block !important; page-break-before:always;}
+  .card,.chart-card,.rec-card{box-shadow:none; border:1px solid #ddd;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">ج</div>
+      <div class="brand-text">
+        <h1>گزارش عملکرد کمپین‌های جانتک</h1>
+        <p>داشبورد اجرایی تبلیغات یکتانت — تحلیل مستقل عملکرد و توصیه استراتژیک</p>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="period-pill">۱ اردیبهشت تا ۱۹ تیر ۱۴۰۵ (۸۰ روز)</span>
+      <span class="status-pill">⚠ فقط ۱۹ خرید ثبت‌شده؛ بدون داده ارزش سفارش</span>
+    </div>
+  </div>
+  <div class="tabs" id="tabsNav"></div>
+</div>
+
+<main>
+  <div id="panels"></div>
+</main>
+
+<footer>
+  گزارش تحلیلی مستقل عملکرد کمپین‌های جانتک بر پایه صادرات مستقیم داده از پنل یکتانت — تهیه‌شده در راستای تصمیم‌گیری مبتنی بر شواهد، نه اثبات عملکرد رسانه تبلیغاتی.
+  <br>تمام اعداد این گزارش برگرفته از فایل‌های خام کمپین است؛ در نبود داده، به‌صراحت «داده کافی برای محاسبه وجود ندارد» ذکر شده است.
+</footer>
+
+<script id="report-data" type="application/json">
+{
+  "totals": {"cost":564772208,"clicks":458299,"impr":61839816,"sessions":411816,"tag":61274,"ctr":0.741,"stc":89.86,"conv":13.37,"cpa":9217,"cpm":9134,"cpc":1232,"cps":1371,
+    "product_view":10516,"signup":2147,"cart":738,"purchase":19,
+    "cpa_product_view":53712,"cpa_signup":263061,"cpa_cart":765275,"cpa_purchase":29724853,
+    "cart_to_purchase_drop":97.43},
+  "channels": [
+    {"key":"pouya","name":"پویا (نمایشی/دینامیک)","cost":298595145,"clicks":114315,"impr":53461097,"sessions":93213,"tag":50294,"ctr":0.214,"stc":81.54,"conv":44.00,"cpa":5937,"n_camp":10},
+    {"key":"inapp","name":"درون‌اپلیکیشن","cost":205919000,"clicks":336160,"impr":6140162,"sessions":313065,"tag":7816,"ctr":5.475,"stc":93.13,"conv":2.32,"cpa":26345,"n_camp":9},
+    {"key":"hamsan","name":"همسان (Native)","cost":27994976,"clicks":5042,"impr":1769578,"sessions":3490,"tag":3129,"ctr":0.285,"stc":69.22,"conv":62.06,"cpa":8947,"n_camp":null},
+    {"key":"video","name":"ویدیویی","cost":17839300,"clicks":1937,"impr":356786,"sessions":1196,"tag":29,"ctr":0.543,"stc":61.74,"conv":1.50,"cpa":615148,"n_camp":4},
+    {"key":"sms","name":"پیامکی","cost":10866378,"clicks":376,"impr":null,"sessions":345,"tag":2,"ctr":null,"stc":91.76,"conv":0.53,"cpa":5433189,"n_camp":4},
+    {"key":"product","name":"محصول (ریتارگتینگ)","cost":3557409,"clicks":469,"impr":112193,"sessions":507,"tag":4,"ctr":0.418,"stc":108.10,"conv":0.85,"cpa":889352,"n_camp":3}
+  ],
+  "longtail": {"cost":32263087,"tag":35,"cpa":921802,"share_cost":6.0,"share_tag":0.06},
+  "pouya_publishers_top": [
+    {"name":"ninisite.com","media":"وب","cost":41196245,"clicks":16682,"sessions":9835,"tag":5576,"cpa":7388},
+    {"name":"سایر (Long tail)","media":"-","cost":14929753,"clicks":5427,"sessions":5814,"tag":2302,"cpa":6486},
+    {"name":"elanet.ir","media":"وب","cost":13476067,"clicks":4155,"sessions":2939,"tag":2702,"cpa":4987},
+    {"name":"rubika.ir","media":"وب","cost":12103836,"clicks":2006,"sessions":1100,"tag":480,"cpa":25216},
+    {"name":"delgarm.com","media":"وب","cost":11787547,"clicks":4059,"sessions":3254,"tag":1827,"cpa":6452},
+    {"name":"com.lenovo.anyshare.gps-sdk","media":"اپلیکیشن","cost":9391007,"clicks":2486,"sessions":2352,"tag":1248,"cpa":7525},
+    {"name":"panamag.ir","media":"وب","cost":6684340,"clicks":1689,"sessions":1309,"tag":1196,"cpa":5589},
+    {"name":"nody.ir","media":"وب","cost":5292820,"clicks":1953,"sessions":1537,"tag":751,"cpa":7048},
+    {"name":"namasha.com","media":"وب","cost":5058586,"clicks":2508,"sessions":1573,"tag":965,"cpa":5242},
+    {"name":"com.khorasannews.latestnews","media":"اپلیکیشن","cost":4774013,"clicks":1599,"sessions":1428,"tag":70,"cpa":68200},
+    {"name":"mirito.ir","media":"وب","cost":3458375,"clicks":1386,"sessions":995,"tag":933,"cpa":3707},
+    {"name":"musicdel.ir","media":"وب","cost":3206519,"clicks":1620,"sessions":1284,"tag":1066,"cpa":3008}
+  ],
+  "inapp_publishers_top": [
+    {"name":"پیام‌رسان بله (Bale)","media":"اپلیکیشن","cost":27219000,"clicks":12342,"sessions":8334,"tag":459,"cpa":59301},
+    {"name":"سایر (Long tail)","media":"-","cost":10200000,"clicks":61151,"sessions":57124,"tag":907,"cpa":11246},
+    {"name":"com.adivery.publisher.21132","media":"اپلیکیشن","cost":7400000,"clicks":4420,"sessions":4307,"tag":395,"cpa":18734},
+    {"name":"com.adivery.publisher.29199","media":"اپلیکیشن","cost":6800000,"clicks":4815,"sessions":4320,"tag":372,"cpa":18280},
+    {"name":"ir.mah.hadi","media":"اپلیکیشن","cost":5400000,"clicks":15071,"sessions":14511,"tag":335,"cpa":16119},
+    {"name":"ir.narges.rozblack","media":"اپلیکیشن","cost":4900000,"clicks":2300,"sessions":2401,"tag":252,"cpa":19444},
+    {"name":"com.adivery.publisher.143","media":"اپلیکیشن","cost":4200000,"clicks":7534,"sessions":6530,"tag":208,"cpa":20192},
+    {"name":"com.adivery.publisher.19037","media":"اپلیکیشن","cost":4100000,"clicks":4954,"sessions":4281,"tag":147,"cpa":27891},
+    {"name":"com.adivery.publisher.74","media":"اپلیکیشن","cost":4000000,"clicks":5719,"sessions":5035,"tag":143,"cpa":27972},
+    {"name":"com.foreteachapp.musicplayer","media":"اپلیکیشن","cost":4000000,"clicks":5678,"sessions":5849,"tag":125,"cpa":32000}
+  ],
+  "daily_pouya_phases": {
+    "dormant": {"label":"غیرفعال (۱ تا ۲۰ اردیبهشت)","days":20,"cost":0,"tag":0,"note":"فقط سشن‌های پراکنده ارگانیک، بدون هزینه تبلیغاتی"},
+    "rampup": {"label":"راه‌اندازی (۲۱ اردیبهشت تا ۹ خرداد)","days":20,"cost":104503518,"tag":929,"cpa":112490},
+    "pause": {"label":"توقف کامل (۱۰ تا ۲۷ خرداد)","days":17,"cost":0,"tag":4,"note":"صفر هزینه، صفر کلیک، صفر نمایش برای ۱۷ روز پیاپی"},
+    "stable": {"label":"پایدار و بالغ (۲۸ خرداد تا ۱۹ تیر)","days":23,"cost":191513566,"tag":49363,"cpa":3880}
+  },
+  "daily_pouya": [
+    {"d":"1 ارد","cost":0,"cpa":null},{"d":"5 ارد","cost":0,"cpa":null},{"d":"9 ارد","cost":45000,"cpa":null},
+    {"d":"13 ارد","cost":0,"cpa":null},{"d":"17 ارد","cost":0,"cpa":null},{"d":"21 ارد","cost":8600330,"cpa":1433388},
+    {"d":"22 ارد","cost":8958458,"cpa":407302},{"d":"23 ارد","cost":8828612,"cpa":267534},{"d":"24 ارد","cost":9590828,"cpa":127878},
+    {"d":"25 ارد","cost":12691620,"cpa":96883},{"d":"26 ارد","cost":11117102,"cpa":119539},{"d":"27 ارد","cost":8765476,"cpa":115335},
+    {"d":"28 ارد","cost":8581399,"cpa":94301},{"d":"29 ارد","cost":8488328,"cpa":121262},{"d":"30 ارد","cost":3737932,"cpa":66749},
+    {"d":"31 ارد","cost":3038642,"cpa":59581},{"d":"1 خرد","cost":2854909,"cpa":71373},{"d":"2 خرد","cost":2420890,"cpa":43230},
+    {"d":"3 خرد","cost":837134,"cpa":29898},{"d":"4 خرد","cost":2397644,"cpa":72656},{"d":"5 خرد","cost":2413602,"cpa":46415},
+    {"d":"6 خرد","cost":326997,"cpa":163499},{"d":"7 خرد","cost":316930,"cpa":63386},{"d":"8 خرد","cost":387844,"cpa":55406},
+    {"d":"9 خرد","cost":148841,"cpa":74421},{"d":"10 خرد","cost":3061,"cpa":null},{"d":"11 خرد","cost":0,"cpa":0},
+    {"d":"14 خرد","cost":0,"cpa":0},{"d":"20 خرد","cost":0,"cpa":null},{"d":"27 خرد","cost":0,"cpa":null},
+    {"d":"28 خرد","cost":3984841,"cpa":4155},{"d":"29 خرد","cost":6424627,"cpa":3937},{"d":"30 خرد","cost":5337659,"cpa":4263},
+    {"d":"31 خرد","cost":6419141,"cpa":4133},{"d":"1 تیر","cost":6245064,"cpa":4117},{"d":"2 تیر","cost":5680160,"cpa":3907},
+    {"d":"3 تیر","cost":6972190,"cpa":4123},{"d":"4 تیر","cost":8004576,"cpa":3908},{"d":"5 تیر","cost":11794422,"cpa":4035},
+    {"d":"6 تیر","cost":10185814,"cpa":4106},{"d":"7 تیر","cost":9000878,"cpa":3738},{"d":"8 تیر","cost":9275989,"cpa":3961},
+    {"d":"9 تیر","cost":8990270,"cpa":3707},{"d":"10 تیر","cost":9174435,"cpa":3774},{"d":"11 تیر","cost":9307668,"cpa":3919},
+    {"d":"12 تیر","cost":9699248,"cpa":3773},{"d":"13 تیر","cost":9363999,"cpa":3902},{"d":"14 تیر","cost":8791553,"cpa":3639},
+    {"d":"15 تیر","cost":8702008,"cpa":3757},{"d":"16 تیر","cost":8073627,"cpa":3785},{"d":"17 تیر","cost":10028123,"cpa":3781},
+    {"d":"18 تیر","cost":10849321,"cpa":3673}
+  ],
+  "video_daily": [
+    {"d":"21 ارد","cost":1105550},{"d":"22 ارد","cost":2162800},{"d":"23 ارد","cost":2093600},{"d":"24 ارد","cost":2113400},
+    {"d":"25 ارد","cost":2100700},{"d":"26 ارد","cost":2108400},{"d":"27 ارد","cost":2107950},{"d":"28 ارد","cost":2130650},
+    {"d":"29 ارد","cost":1916150},{"d":"30 ارد","cost":50},{"d":"31 ارد","cost":50},{"d":"1 خرد","cost":0},
+    {"d":"6 خرد","cost":0},{"d":"8 خرد","cost":0},{"d":"29 خرد","cost":0},{"d":"17 تیر","cost":0}
+  ],
+  "sms_daily": [
+    {"d":"1 ارد","cost":4151172},{"d":"2 ارد","cost":327540},{"d":"3 ارد","cost":0},{"d":"10 ارد","cost":0},
+    {"d":"13 ارد","cost":5978082},{"d":"14 ارد","cost":409584},{"d":"15 ارد","cost":0},{"d":"20 ارد","cost":0},
+    {"d":"26 ارد","cost":0},{"d":"30 ارد","cost":0},{"d":"5 خرد","cost":0},{"d":"20 خرد","cost":0},
+    {"d":"24 خرد","cost":0},{"d":"2 تیر","cost":0},{"d":"19 تیر","cost":0}
+  ],
+  "product_daily": [
+    {"d":"18 ارد","cost":56030},{"d":"20 ارد","cost":9816},{"d":"22 ارد","cost":42426},{"d":"27 ارد","cost":38312},
+    {"d":"29 ارد","cost":61324},{"d":"4 خرد","cost":0},{"d":"10 خرد","cost":24533},{"d":"13 خرد","cost":82420},
+    {"d":"17 خرد","cost":142199},{"d":"21 خرد","cost":155590},{"d":"24 خرد","cost":141279},{"d":"27 خرد","cost":97691},
+    {"d":"30 خرد","cost":57056},{"d":"2 تیر","cost":116002},{"d":"5 تیر","cost":106042},{"d":"8 تیر","cost":104075},
+    {"d":"11 تیر","cost":62055},{"d":"13 تیر","cost":201052},{"d":"16 تیر","cost":47683},{"d":"19 تیر","cost":40116}
+  ],
+  "scenarios_reallocate": [
+    {"shift":30000000,"lost_inapp":1139,"gain_pouya":5053,"net":3914},
+    {"shift":50000000,"lost_inapp":1898,"gain_pouya":8422,"net":6524},
+    {"shift":80000000,"lost_inapp":3037,"gain_pouya":13475,"net":10438}
+  ],
+  "scenario_pause": {"pause_days":17,"avg_tag_day":2146,"avg_cost_day":8326677,"lost_tag_est":36486,"needed_cost":141553505,"cpa_stable":3880}
+}
+
+</script>
+<script>
+const DATA = JSON.parse(document.getElementById('report-data').textContent);
+const fmt = n => n===null||n===undefined ? '—' : Math.round(n).toLocaleString('en-US');
+const fmt1 = n => n===null||n===undefined ? '—' : n.toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1});
+const pct = n => n===null||n===undefined ? '—' : n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+const toman = n => n===null||n===undefined ? '—' : fmt(n)+' تومان';
+
+const PALETTE = {pouya:'#0B1F33', inapp:'#1F4E79', hamsan:'#8E5A2B', video:'#00A6A6', sms:'#F59E0B', product:'#C62828'};
+const CH = Object.fromEntries(DATA.channels.map(c=>[c.key,c]));
+
+const TABS = [
+  {id:'summary', label:'خلاصه مدیریتی'},
+  {id:'report1', label:'گزارش عملکرد — کل دوره'},
+  {id:'report2', label:'تحلیل داده‌های روزانه'},
+  {id:'comparison', label:'سناریوهای بهینه‌سازی'},
+  {id:'recommendations', label:'توصیه‌های استراتژیک'},
+  {id:'appendix', label:'سناریوهای ادامه'}
+];
+
+function renderNav(){
+  const nav = document.getElementById('tabsNav');
+  nav.innerHTML = TABS.map((t,i)=>`<button class="tab-btn ${i===0?'active':''}" data-tab="${t.id}">${t.label}</button>`).join('');
+  nav.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>switchTab(btn.dataset.tab));
+  });
+}
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===id));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------------- SUMMARY TAB ---------------- */
+function panelSummary(){
+  const longtail = DATA.longtail;
+  return `
+  <section>
+    <div class="card" style="background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; border:none;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;">
+        <div style="max-width:680px;">
+          <span class="tag-badge" style="background:rgba(255,255,255,.16); color:#fff;">تأییدشده — داده مستقیم پنل یکتانت + متریک‌های تکمیلی قیف خرید</span>
+          <h2 style="font-size:21px; font-weight:800; margin-top:12px; line-height:1.6;">
+            از ۵۶۴.۸ میلیون تومان بودجه در ۶ کانال، کانال «پویا» با ۵۲.۹٪ بودجه، ۸۲.۱٪ از کل رویدادهای تبدیل شناخته‌شده را تولید کرد. اما یافته مهم‌تر این نسخه: از ۷۳۸ کاربری که کالا به سبد خرید افزوده‌اند، فقط ۱۹ نفر خرید را نهایی کرده‌اند — افت ۹۷.۴٪ در نقطه‌ای که کاملاً در کنترل جانتک است.
+          </h2>
+          <p style="font-size:12.8px; color:rgba(255,255,255,.82); margin-top:12px; line-height:1.9; text-align:justify; text-align-last:right;">
+            این نسخه از گزارش، علاوه بر ۱۳ فایل خام اولیه (پنج کانال)، شامل کانال ششم «همسان» و برای اولین بار متریک‌های قیف پایینی (مشاهده محصول، ثبت‌نام، سبد خرید، خرید موفق) در سطح کل کمپین است. همچنان هیچ داده‌ای از ارزش تومانی سفارش‌ها در دسترس نیست؛ بنابراین با وجود دانستن تعداد خرید واقعی (۱۹)، محاسبه ROAS و سود واقعی هنوز ممکن نیست.
+          </p>
+        </div>
+        <div style="text-align:left; flex-shrink:0;">
+          <div style="font-size:11.5px; color:rgba(255,255,255,.7);">کل هزینه دوره</div>
+          <div class="num" style="font-size:30px; font-weight:800;">${toman(DATA.totals.cost)}</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,.7); margin-top:10px;">خرید موفق واقعی (تنها ۱۹ مورد)</div>
+          <div class="num" style="font-size:22px; font-weight:800; color:#FFD3D0;">${fmt(DATA.totals.purchase)}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>شاخص‌های کلیدی کل دوره</h2><span class="hint">منبع: مجموع فایل‌های «به تفکیک کمپین» ۶ کانال</span></div>
+    <div class="grid grid-5">
+      ${kpiCard('کل هزینه تبلیغات', toman(DATA.totals.cost), 'تأییدشده', 'success')}
+      ${kpiCard('نمایش‌ها (بدون پیامکی)', fmt(DATA.totals.impr), 'تأییدشده', 'success')}
+      ${kpiCard('کلیک‌ها', fmt(DATA.totals.clicks), 'تأییدشده', 'success')}
+      ${kpiCard('سشن‌های سایت/اپ', fmt(DATA.totals.sessions), 'تأییدشده', 'success')}
+      ${kpiCard('CPA رخداد تگ (میانگین کل ۶ کانال)', toman(DATA.totals.cpa), 'محاسبه‌شده', 'calc')}
+    </div>
+    <div class="grid grid-5" style="margin-top:16px;">
+      ${kpiCard('مشاهده جزئیات محصول', fmt(DATA.totals.product_view), 'ثبت‌شده در داده کمپین', 'calc')}
+      ${kpiCard('ثبت‌نام موفق', fmt(DATA.totals.signup), 'ثبت‌شده در داده کمپین', 'calc')}
+      ${kpiCard('افزودن به سبد خرید', fmt(DATA.totals.cart), 'ثبت‌شده در داده کمپین', 'calc')}
+      ${kpiCard('خرید موفق', fmt(DATA.totals.purchase), 'هشدار', 'validate')}
+      ${kpiCard('CPA بر مبنای خرید واقعی', toman(DATA.totals.cpa_purchase), 'یافته بحرانی', 'missing')}
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سهم بودجه در برابر سهم تبدیل به تفکیک کانال</h2><span class="hint">شکاف بین این دو ستون، مستقیم‌ترین شاهد ناکارآمدی تخصیص بودجه است</span></div>
+    <div class="grid grid-2">
+      <div class="card chart-card">
+        <h3>سهم بودجه از کل هزینه</h3>
+        <div class="csrc">منبع: مجموع «هزینه» در فایل‌های تفکیک کمپین</div>
+        <div class="chart-holder"><canvas id="chartBudgetShare"></canvas></div>
+      </div>
+      <div class="card chart-card">
+        <h3>سهم رویدادهای تگ (تبدیل)</h3>
+        <div class="csrc">منبع: مجموع «رخداد تگ» در فایل‌های تفکیک کمپین</div>
+        <div class="chart-holder"><canvas id="chartConvShare"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>یافته‌های راهبردی کلیدی</h2></div>
+    <div class="grid grid-2">
+      <div class="callout danger">
+        <div class="ic">🛑</div>
+        <div><b>افت ۹۷.۴٪ بین سبد خرید و خرید موفق <span class="tag-badge tag-validate" style="margin-right:6px;">یافته بحرانی جدید</span></b>
+        <p>از ۷۳۸ کاربری که کالا به سبد خرید افزوده‌اند، تنها ۱۹ نفر خرید را نهایی کرده‌اند. این عمیق‌ترین افت در کل مسیر مشتری است و برخلاف افت بالای قیف (نمایش→کلیک)، در نقطه‌ای رخ می‌دهد که کاربر قصد خرید را از قبل نشان داده — گلوگاه احتمالی در مرحله تسویه‌حساب/پرداخت است که باید با داده‌های سایت و بررسی فنی اعتبارسنجی شود؛ از داده فعلی نمی‌توان علت دقیق افت را قطعی کرد.</p></div>
+      </div>
+      <div class="callout danger">
+        <div class="ic">⚠</div>
+        <div><b>عدم امکان اندازه‌گیری سود واقعی <span class="tag-badge tag-missing" style="margin-right:6px;">داده ناکافی</span></b>
+        <p>اکنون تعداد خرید واقعی مشخص است (۱۹ مورد) اما ارزش تومانی هیچ سفارشی در دسترس نیست. بنابراین با وجود CPA بر مبنای خرید (${toman(DATA.totals.cpa_purchase)})، هنوز نمی‌توان گفت کمپین سودآور بوده یا زیان‌ده — این عدد فقط زمانی قابل قضاوت است که میانگین ارزش سفارش (AOV) مشخص شود.</p></div>
+      </div>
+      <div class="callout warning">
+        <div class="ic">💸</div>
+        <div><b>۳۲.۳ میلیون تومان در سه کانال کم‌بازده <span class="tag-badge tag-calc" style="margin-right:6px;">محاسبه‌شده</span></b>
+        <p>ویدیویی، پیامکی و ریتارگتینگ محصول رویهم ۵.۷٪ از بودجه (${toman(longtail.cost)}) را مصرف کردند اما تنها ${fmt(longtail.tag)} رویداد تگ (۰.۰۶٪ از کل) تولید کردند — CPA میانگین ${toman(longtail.cpa)}.</p></div>
+      </div>
+      <div class="callout success">
+        <div class="ic">📈</div>
+        <div><b>عملکرد قوی کانال جدید همسان <span class="tag-badge tag-verified" style="margin-right:6px;">تأییدشده</span></b>
+        <p>با ۵.۰٪ بودجه (${toman(27994976)})، کانال همسان ${fmt(3129)} رویداد تگ با CPA ${toman(8947)} تومان تولید کرده — دومین کانال ارزان‌قیمت پس از پویا و به‌مراتب بهتر از درون‌اپلیکیشن. این کانال کاندیدای مناسبی برای افزایش بودجه است.</p></div>
+      </div>
+      <div class="callout info">
+        <div class="ic">⏸</div>
+        <div><b>۱۷ روز توقف کامل در بهترین کانال <span class="tag-badge tag-verified" style="margin-right:6px;">تأییدشده</span></b>
+        <p>کانال پویا — که ۸۲.۱٪ کل تبدیل‌های شناخته‌شده را تأمین می‌کند — از ۱۰ تا ۲۷ خرداد به‌طور کامل متوقف بوده (هزینه، کلیک و نمایش صفر). این وقفه در میانه بهترین بازه عملکردی رخ داده است.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>جمع‌بندی برای مدیریت</h2></div>
+    <div class="callout accent">
+      <div class="ic">🎯</div>
+      <div><b>مهم‌ترین یافته راهبردی (بازنگری‌شده)</b>
+      <p>داده موجود همچنان ثابت می‌کند که کانال پویا به‌ازای هر تومان، عملکرد به‌مراتب بهتری نسبت به درون‌اپلیکیشن دارد. اما یافته مهم‌تر این نسخه در سطح کانال نیست — در سطح قیف است: ترافیک ورودی باکیفیت است و کاربران تا سبد خرید هم می‌رسند، اما فقط ۱۹ خرید نهایی می‌شود. پیش از هر تصمیم قطعی برای بازتخصیص بودجه تبلیغاتی، اولویت مطلق بررسی گلوگاه احتمالی تسویه‌حساب/پرداخت و اصلاح Tracking است؛ در غیر این صورت هر بهینه‌سازی کانال صرفاً ترافیک بیشتری را به قیفی هدایت می‌کند که اثر آن بر خرید واقعی هنوز اثبات نشده است. جزئیات در تب «توصیه‌های استراتژیک».</p></div>
+    </div>
+  </section>
+  `;
+}
+
+function kpiCard(label, value, tagLabel, tagClass){
+  return `<div class="card kpi-card">
+    <div class="label"><span>${label}</span><span class="tag-badge tag-${tagClass}">${tagLabel}</span></div>
+    <div class="value num">${value}</div>
+  </div>`;
+}
+
+/* ---------------- REPORT1 TAB (full period) ---------------- */
+function panelReport1(){
+  const rows = DATA.channels.map(c=>{
+    const cpaClass = c.cpa===null?'chip-mid':(c.cpa<=10000?'chip-good':(c.cpa<=50000?'chip-mid':'chip-bad'));
+    const tagShare = c.tag===null ? '—' : pct(c.tag/DATA.totals.tag*100);
+    const estBadge = c.estimated ? '<span class="tag-badge tag-hypothesis" style="margin-right:4px;">تخمینی</span>' : '';
+    return `<tr>
+      <td><b>${c.name}</b> ${estBadge}</td>
+      <td class="num">${toman(c.cost)}</td>
+      <td class="num">${pct(c.cost/DATA.totals.cost*100)}</td>
+      <td class="num">${fmt(c.impr)}</td>
+      <td class="num">${fmt(c.clicks)}</td>
+      <td class="num">${c.ctr===null?'—':pct(c.ctr)}</td>
+      <td class="num">${fmt(c.sessions)}</td>
+      <td class="num">${fmt(c.tag)}</td>
+      <td class="num">${tagShare}</td>
+      <td class="num">${pct(c.conv)}</td>
+      <td class="num"><span class="chip ${cpaClass}">${c.cpa===null?'داده ناموجود':toman(c.cpa)}</span></td>
+    </tr>`;
+  }).join('');
+
+  const pubRowsPouya = DATA.pouya_publishers_top.map(p=>{
+    const cls = p.cpa<=6000?'chip-good':(p.cpa<=15000?'chip-mid':'chip-bad');
+    return `<tr><td>${p.name}</td><td>${p.media}</td><td class="num">${toman(p.cost)}</td><td class="num">${fmt(p.clicks)}</td><td class="num">${fmt(p.sessions)}</td><td class="num">${fmt(p.tag)}</td><td class="num"><span class="chip ${cls}">${toman(p.cpa)}</span></td></tr>`;
+  }).join('');
+  const pubRowsInapp = DATA.inapp_publishers_top.map(p=>{
+    const cls = p.cpa<=15000?'chip-good':(p.cpa<=30000?'chip-mid':'chip-bad');
+    return `<tr><td>${p.name}</td><td>${p.media}</td><td class="num">${toman(p.cost)}</td><td class="num">${fmt(p.clicks)}</td><td class="num">${fmt(p.sessions)}</td><td class="num">${fmt(p.tag)}</td><td class="num"><span class="chip ${cls}">${toman(p.cpa)}</span></td></tr>`;
+  }).join('');
+
+  return `
+  <section>
+    <div class="section-head"><h2>عملکرد کامل کانال‌ها — ۱ اردیبهشت تا ۱۹ تیر ۱۴۰۵</h2><span class="hint num">۸۰ روز | 30+ کمپین فعال در ۶ کانال</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>کانال</th><th>هزینه (تومان)</th><th>سهم بودجه</th><th>نمایش</th><th>کلیک</th><th>CTR</th><th>سشن</th><th>رخداد تگ</th><th>سهم تبدیل</th><th>نرخ تبدیل (تگ/کلیک)</th><th>CPA</th></tr></thead>
+        <tbody>
+          ${rows}
+          <tr class="total-row"><td>جمع کل</td><td class="num">${toman(DATA.totals.cost)}</td><td class="num">100%</td><td class="num">${fmt(DATA.totals.impr)}</td><td class="num">${fmt(DATA.totals.clicks)}</td><td class="num">${pct(DATA.totals.ctr)}</td><td class="num">${fmt(DATA.totals.sessions)}</td><td class="num">${fmt(DATA.totals.tag)}</td><td class="num">100%</td><td class="num">${pct(DATA.totals.conv)}</td><td class="num">${toman(DATA.totals.cpa)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="section-sub" style="margin-top:14px;">پیامکی فاقد مفهوم «نمایش» است (کانال push، نه رسانه نمایشی) بنابراین CTR برای آن قابل‌محاسبه نیست؛ در تجمیع CTR کل، پیامکی از مخرج کسر حذف شده است. نرخ تبدیل درون‌اپلیکیشن از ستون AR گزارش یکتانت استخراج شده که معادل رخداد تگ به کلیک است.</p>
+  </section>
+
+  <section>
+    <div class="grid grid-2">
+      <div class="card chart-card">
+        <h3>مقایسه CPA کانال‌های اصلی</h3>
+        <div class="csrc">منبع: هزینه ÷ رخداد تگ هر کانال — کانال‌های دم‌بلند (ویدیویی/پیامکی/محصول) به‌دلیل مقیاس بسیار متفاوت در نمودار جدا آمده‌اند</div>
+        <div class="chart-holder"><canvas id="chartCPAMain"></canvas></div>
+      </div>
+      <div class="card chart-card">
+        <h3>CPA کانال‌های دم‌بلند (مقیاس متفاوت)</h3>
+        <div class="csrc">منبع: هزینه ÷ رخداد تگ — توجه: مقیاس محور با نمودار مجاور یکسان نیست</div>
+        <div class="chart-holder"><canvas id="chartCPALongtail"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>قیف کامل عملکرد کل دوره</h2><span class="hint">برای اولین بار شامل مراحل قیف پایینی</span></div>
+    <div class="card">
+      <div class="funnel" id="funnelWrap"></div>
+      <div class="callout danger" style="margin-top:18px;">
+        <div class="ic">🛑</div>
+        <div><b>گلوگاه اصلی مسیر مشتری <span class="tag-badge tag-validate" style="margin-right:6px;">یافته بحرانی</span></b>
+        <p>شدیدترین افت قیف بین «سبد خرید» (${fmt(DATA.totals.cart)}) و «خرید موفق» (${fmt(DATA.totals.purchase)}) رخ می‌دهد — افت ${pct(DATA.totals.cart_to_purchase_drop)}. این افت به‌مراتب شدیدتر از هر افت دیگری در مسیر مشتری است و در نقطه‌ای رخ می‌دهد که کاربر قصد خرید را از قبل نشان داده — گلوگاه احتمالی در مرحله تسویه‌حساب/پرداخت است که باید با داده‌های سایت و بررسی فنی اعتبارسنجی شود؛ از داده فعلی نمی‌توان علت دقیق افت را قطعی کرد.</p></div>
+      </div>
+      <div class="callout warning" style="margin-top:12px;">
+        <div class="ic">ⓘ</div>
+        <div><b>محدودیت باقی‌مانده قیف <span class="tag-badge tag-missing" style="margin-right:6px;">داده ناکافی</span></b>
+        <p>مراحل قیف پایینی (مشاهده محصول، ثبت‌نام، سبد خرید، خرید) فقط در سطح کل کمپین ثبت شده‌اند، نه به‌تفکیک کانال یا کمپین. بنابراین نمی‌توان گفت کدام کانال (پویا، درون‌اپ، همسان و...) مسئول ۱۹ خرید موفق بوده — این شکاف مانع تخصیص بودجه مبتنی بر خرید واقعی است.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>عملکرد ناشران — کانال پویا (۱۲ ناشر برتر از ۵۹۹ ناشر)</h2><span class="hint">مرتب بر اساس هزینه</span></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>ناشر</th><th>رسانه</th><th>هزینه</th><th>کلیک</th><th>سشن</th><th>رخداد تگ</th><th>CPA</th></tr></thead>
+      <tbody>${pubRowsPouya}</tbody></table>
+    </div>
+    <p class="section-sub" style="margin-top:12px;">این ۱۲ ناشر ۵۴.۱٪ از بودجه کانال پویا و ۴۸.۶٪ از رویدادهای تگ آن را تشکیل می‌دهند. rubika.ir و com.khorasannews.latestnews با وجود هزینه بالا، CPA به‌مراتب ضعیف‌تری نسبت به میانگین کانال (۵,۹۳۷ تومان) دارند.</p>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>عملکرد ناشران — کانال درون‌اپلیکیشن (۱۰ ناشر برتر از ۴۱۸ ناشر)</h2><span class="hint">مرتب بر اساس هزینه</span></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>ناشر</th><th>رسانه</th><th>هزینه</th><th>کلیک</th><th>سشن</th><th>رخداد تگ</th><th>CPA</th></tr></thead>
+      <tbody>${pubRowsInapp}</tbody></table>
+    </div>
+    <div class="callout danger" style="margin-top:14px;">
+      <div class="ic">🔴</div>
+      <div><b>پیام‌رسان بله؛ بزرگ‌ترین ناشر و ضعیف‌ترین CPA هم‌زمان</b>
+      <p>بله با ۲۷.۲ میلیون تومان (بزرگ‌ترین سهم هزینه در کل کانال درون‌اپلیکیشن) و CPA معادل ${toman(59301)} — نزدیک به ۱۰ برابر میانگین کانال پویا — عمل کرده است. تمام ۱۰ ناشر برتر این کانال بین ۱۶ تا ۴۲ هزار تومان CPA دارند که همگی به‌مراتب بالاتر از میانگین کانال پویا هستند.</p></div>
+    </div>
+  </section>
+  `;
+}
+
+/* ---------------- REPORT2 TAB (daily) ---------------- */
+function panelReport2(){
+  const ph = DATA.daily_pouya_phases;
+  return `
+  <section>
+    <div class="section-head"><h2>خط زمانی کمپین پویا (کانال اصلی تبدیل)</h2><span class="hint">تنها کانالی که داده روزانه کامل برای آن در دسترس بود</span></div>
+    <div class="callout warning" style="margin-bottom:16px;">
+      <div class="ic">ⓘ</div>
+      <div><b>محدودیت داده روزانه <span class="tag-badge tag-missing" style="margin-right:6px;">داده ناکافی</span></b>
+      <p>برای کانال درون‌اپلیکیشن (۳۶.۵٪ از بودجه) و کانال جدید همسان (۵.۰٪ از بودجه) هیچ فایل «به تفکیک زمان» ارائه نشده است؛ بنابراین روند روزانه این دو کانال قابل‌تحلیل نیست. تحلیل زیر مبتنی بر کانال پویا، ویدیویی، پیامکی و ریتارگتینگ محصول است که داده روزانه کامل دارند.</p></div>
+    </div>
+    <div class="grid grid-4">
+      <div class="card" style="border-right:4px solid var(--text-faint);">
+        <div class="label" style="font-size:12px; color:var(--text-soft); font-weight:700;">فاز ۱ — غیرفعال</div>
+        <div style="font-size:12.5px; margin-top:8px; color:var(--text-soft);">${ph.dormant.label}</div>
+        <div class="num" style="font-size:20px; font-weight:800; margin-top:8px;">۰ تومان</div>
+        <div class="sub">فقط سشن پراکنده ارگانیک، بدون خرج تبلیغاتی</div>
+      </div>
+      <div class="card" style="border-right:4px solid var(--warning);">
+        <div class="label" style="font-size:12px; color:var(--text-soft); font-weight:700;">فاز ۲ — راه‌اندازی</div>
+        <div style="font-size:12.5px; margin-top:8px; color:var(--text-soft);">${ph.rampup.label}</div>
+        <div class="num" style="font-size:20px; font-weight:800; margin-top:8px;">${toman(ph.rampup.cost)}</div>
+        <div class="sub">CPA میانگین: <b class="num">${toman(ph.rampup.cpa)}</b> — بسیار بالا، دوره یادگیری الگوریتم</div>
+      </div>
+      <div class="card" style="border-right:4px solid var(--danger);">
+        <div class="label" style="font-size:12px; color:var(--text-soft); font-weight:700;">فاز ۳ — توقف کامل</div>
+        <div style="font-size:12.5px; margin-top:8px; color:var(--text-soft);">${ph.pause.label}</div>
+        <div class="num" style="font-size:20px; font-weight:800; margin-top:8px;">۰ تومان</div>
+        <div class="sub">${ph.pause.days} روز پیاپی بدون هزینه، کلیک یا نمایش</div>
+      </div>
+      <div class="card" style="border-right:4px solid var(--success);">
+        <div class="label" style="font-size:12px; color:var(--text-soft); font-weight:700;">فاز ۴ — پایدار و بالغ</div>
+        <div style="font-size:12.5px; margin-top:8px; color:var(--text-soft);">${ph.stable.label}</div>
+        <div class="num" style="font-size:20px; font-weight:800; margin-top:8px;">${toman(ph.stable.cost)}</div>
+        <div class="sub">CPA میانگین: <b class="num">${toman(ph.stable.cpa)}</b> — ${Math.round(ph.rampup.cpa/ph.stable.cpa)} برابر بهتر از فاز راه‌اندازی</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card chart-card">
+      <h3>روند روزانه هزینه و CPA — کانال پویا</h3>
+      <div class="csrc">منبع: «همه کمپین‌های پویا به تفکیک زمان» — محور راست: CPA روزانه (تومان، مقیاس لگاریتمی به‌دلیل دامنه وسیع)</div>
+      <div class="chart-holder tall"><canvas id="chartDailyTrend"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="grid grid-2">
+      <div class="callout danger">
+        <div class="ic">⏸</div>
+        <div><b>وقفه ۱۷ روزه — بزرگ‌ترین ناهنجاری زمانی گزارش</b>
+        <p>از ۱۰ تا ۲۷ خرداد، کانال پویا به‌طور کامل بدون بودجه فعال بوده است؛ این وقفه دقیقاً در مرز میان فاز پرهزینهٔ راه‌اندازی و فاز پایدار رخ داده و از داده قابل تشخیص نیست که آیا ناشی از تمام‌شدن بودجه، توقف دستی کمپین یا مشکل فنی تگ‌گذاری بوده است. <span class="tag-badge tag-validate">نیازمند اعتبارسنجی با تیم کمپین یکتانت</span></p></div>
+      </div>
+      <div class="callout info">
+        <div class="ic">📉</div>
+        <div><b>کانال‌های ویدیویی و پیامکی؛ رهاشده پس از سه هفته اول</b>
+        <p>کانال ویدیویی تقریباً تمام ۱۷.۸ میلیون تومان بودجه خود را بین ۲۱ تا ۳۱ اردیبهشت (۱۱ روز) خرج کرد و از آن پس تا پایان دوره (نزدیک به ۷ هفته) هزینه صفر داشت. کانال پیامکی نیز فقط در دو بازه کوتاه (۱-۲ و ۱۳-۱۴ اردیبهشت) فعال بود. هر دو کانال در بدنه گزارش به‌عنوان «کانال فعال» ظاهر می‌شوند اما عملاً غیرفعال بوده‌اند.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>روند هزینه روزانه — سایر کانال‌ها با داده زمانی</h2></div>
+    <div class="grid grid-2">
+      <div class="card chart-card">
+        <h3>هزینه روزانه — ویدیویی و پیامکی</h3>
+        <div class="csrc">منبع: فایل‌های «به تفکیک زمان» ویدیویی و پیامکی — تمرکز بودجه در اردیبهشت</div>
+        <div class="chart-holder"><canvas id="chartVideoSmsDaily"></canvas></div>
+      </div>
+      <div class="card chart-card">
+        <h3>هزینه روزانه — ریتارگتینگ محصول</h3>
+        <div class="csrc">منبع: «همه کمپین‌های محصول به تفکیک زمان» — تنها کانال با پخش پیوسته در کل دوره</div>
+        <div class="chart-holder"><canvas id="chartProductDaily"></canvas></div>
+      </div>
+    </div>
+  </section>
+  `;
+}
+
+/* ---------------- COMPARISON TAB (what-if) ---------------- */
+function panelComparison(){
+  const s = DATA.scenarios_reallocate;
+  const sp = DATA.scenario_pause;
+  const rows = s.map(r=>`<tr><td class="num">${toman(r.shift)}</td><td class="num">${fmt(r.lost_inapp)}-</td><td class="num">${fmt(r.gain_pouya)}+</td><td class="num"><b>${fmt(r.net)}+</b></td></tr>`).join('');
+  return `
+  <section>
+    <div class="callout info">
+      <div class="ic">ⓘ</div>
+      <div><b>درباره سناریوهای این تب</b>
+      <p>تمام محاسبات این بخش «What-if» هستند: بر پایه <u>میانگین CPA تاریخی</u> هر کانال محاسبه شده‌اند، نه CPA نهایی (Marginal CPA). در واقعیت، با افزایش بودجه یک کانال، معمولاً CPA به‌تدریج افزایش می‌یابد (بازده نزولی) زیرا مخاطبان با بالاترین کیفیت زودتر جذب می‌شوند. این سناریوها را باید به‌عنوان «سقف بالای منطقی» و پایه‌ای برای طراحی آزمایش کنترل‌شده در نظر گرفت، نه پیش‌بینی قطعی.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سناریو ۱ — بازتخصیص بودجه از درون‌اپلیکیشن به پویا</h2><span class="hint">پایه: CPA میانگین تاریخی هر کانال</span></div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 style="font-size:13.5px; font-weight:800; margin-bottom:14px;">فرمول محاسبه</h3>
+        <div style="background:var(--bg); border-radius:10px; padding:14px; font-size:12.5px; line-height:2; color:var(--text-soft); direction:ltr; text-align:left;" class="num">
+          lost_events = shift_amount / inapp_CPA (26,346)<br>
+          gained_events = shift_amount / pouya_CPA (5,937)<br>
+          net_gain = gained_events − lost_events
+        </div>
+        <div class="table-wrap" style="margin-top:16px;">
+          <table><thead><tr><th>مبلغ بازتخصیص</th><th>کاهش تبدیل درون‌اپ</th><th>افزایش تبدیل پویا</th><th>خالص تبدیل اضافه</th></tr></thead>
+          <tbody>${rows}</tbody></table>
+        </div>
+      </div>
+      <div class="card chart-card">
+        <h3>خالص افزایش رویداد تگ به ازای مبلغ بازتخصیص</h3>
+        <div class="csrc">سناریوی پایه — سطح اطمینان: متوسط (مبتنی بر CPA میانگین، نه نهایی)</div>
+        <div class="chart-holder"><canvas id="chartReallocate"></canvas></div>
+      </div>
+    </div>
+    <div class="callout success" style="margin-top:16px;">
+      <div class="ic">✓</div>
+      <div><b>جمع‌بندی سناریو ۱ — سطح اطمینان: متوسط تا بالا</b>
+      <p>بازتخصیص ۵۰ میلیون تومان از درون‌اپلیکیشن به پویا، بر پایه CPA میانگین فعلی، می‌تواند به‌صورت نظری ۶,۵۲۴ رویداد تگ خالص اضافه ایجاد کند بدون افزایش بودجه کل. توصیه: این جابه‌جایی به‌صورت پلکانی (ابتدا ۳۰ میلیون تومان) و همراه با پایش روزانه CPA اجرا شود تا احتمال بازده نزولی زودهنگام سنجیده شود.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سناریو ۲ — تداوم پخش بدون وقفه (رفع توقف ۱۷ روزه)</h2></div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="pbar-row"><div class="name">وضعیت واقعی (با وقفه)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--text-faint);"></div></div><div class="val num">${fmt(sp.avg_tag_day*23)} رویداد / ۲۳ روز</div></div>
+        <div class="pbar-row"><div class="name">در صورت تداوم (فرضی)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--accent);"></div></div><div class="val num">${fmt(sp.lost_tag_est)} رویداد اضافه / ۱۷ روز</div></div>
+        <p class="section-sub" style="margin-top:16px; margin-bottom:0;">در صورتی که کانال پویا در بازه ۱۰ تا ۲۷ خرداد با همان میانگین روزانه فاز پایدار (${fmt(sp.avg_tag_day)} رویداد تگ و ${toman(sp.avg_cost_day)} هزینه در روز) ادامه می‌یافت، برآورد می‌شود حدود <b class="num">${fmt(sp.lost_tag_est)}</b> رویداد تگ بیشتر با هزینه تقریبی <b class="num">${toman(sp.needed_cost)}</b> ثبت می‌شد. <span class="tag-badge tag-hypothesis">فرض تحلیلی</span></p>
+      </div>
+      <div class="callout warning">
+        <div class="ic">⚠</div>
+        <div><b>پیش‌نیاز این سناریو</b>
+        <p>این برآورد فرض می‌کند نرخ CPA فاز پایدار در طول وقفه نیز برقرار می‌ماند — فرضی که در نبود اطلاع از علت واقعی توقف (اتمام بودجه، تصمیم دستی یا خرابی تگ) قابل اثبات قطعی نیست. پیش از تخصیص بودجه اضافه بر این مبنا، باید علت وقفه با تیم اجرایی کمپین یکتانت مشخص شود.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سناریو ۳ — هرس ناشران کم‌بازده</h2></div>
+    <div class="card">
+      <p class="section-sub" style="margin-bottom:14px;">در صورت توقف تبلیغ در ۳ ناشر با ضعیف‌ترین CPA در هر کانال اصلی (پویا و درون‌اپلیکیشن) و انتقال همان بودجه به ناشران با بهترین CPA در همان کانال:</p>
+      <div class="grid grid-2">
+        <div>
+          <b style="font-size:12.5px;">کانال پویا</b>
+          <div class="pbar-row" style="margin-top:10px;"><div class="name">rubika.ir (ضعیف)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--danger);"></div></div><div class="val num">CPA ۲۵,۲۱۶</div></div>
+          <div class="pbar-row"><div class="name">khorasannews (ضعیف)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--danger);"></div></div><div class="val num">CPA ۶۸,۲۰۰</div></div>
+          <div class="pbar-row"><div class="name">musicdel.ir (قوی)</div><div class="pbar-track"><div class="pbar-fill" style="width:34%; background:var(--success);"></div></div><div class="val num">CPA ۳,۰۰۸</div></div>
+        </div>
+        <div>
+          <b style="font-size:12.5px;">کانال درون‌اپلیکیشن</b>
+          <div class="pbar-row" style="margin-top:10px;"><div class="name">بله (ضعیف)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--danger);"></div></div><div class="val num">CPA ۵۹,۳۰۱</div></div>
+          <div class="pbar-row"><div class="name">com.foreteach... (ضعیف)</div><div class="pbar-track"><div class="pbar-fill" style="width:100%; background:var(--danger);"></div></div><div class="val num">CPA ۳۲,۰۰۰</div></div>
+          <div class="pbar-row"><div class="name">سایر (long tail)</div><div class="pbar-track"><div class="pbar-fill" style="width:19%; background:var(--success);"></div></div><div class="val num">CPA ۱۱,۲۴۶</div></div>
+        </div>
+      </div>
+      <div class="callout info" style="margin-top:16px;">
+        <div class="ic">ⓘ</div>
+        <div><b>محدودیت این سناریو</b>
+        <p>«داده کافی برای برآورد عددی دقیق اثر هرس در سطح ناشر وجود ندارد» — زیرا حجم قابل‌جذب هر ناشر برتر محدود است و انتقال کامل بودجه بله (۲۷.۲ میلیون تومان) به ناشران کوچک‌تر لزوماً با همان CPA فعلی آن‌ها مقیاس‌پذیر نیست. توصیه عملی: کاهش تدریجی (نه توقف کامل) بودجه بله و پایش هفتگی CPA.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سناریو ۴ — تکلیف کانال‌های ویدیویی و پیامکی</h2></div>
+    <div class="grid grid-2">
+      <div class="rec-card">
+        <h4>گزینه الف: توقف رسمی</h4>
+        <p>با CPA به‌ترتیب ${toman(615148)} (ویدیویی) و ${toman(5433189)} (پیامکی) — که هر دو به‌مراتب بالاتر از سایر کانال‌ها هستند — و با توجه به رهاشدن عملی این کانال‌ها پس از سه هفته اول، ساده‌ترین اقدام توقف رسمی و انتقال کامل بودجه (۲۸.۷ میلیون تومان) به کانال پویا است.</p>
+        <div class="rec-meta"><span class="meta-chip">ریسک: پایین</span><span class="meta-chip">اطمینان: بالا</span></div>
+      </div>
+      <div class="rec-card">
+        <h4>گزینه ب: آزمایش کنترل‌شده مجدد</h4>
+        <p>حجم نمونه این دو کانال (۳۱ رویداد تگ در مجموع) به‌قدری کم است که نمی‌توان با اطمینان گفت خود فرمت ناکارآمد است یا صرفاً بودجه/مدت آزمایش ناکافی بوده. اگر جانتک به کانال ویدیویی برای اهداف برندینگ (نه صرفاً تبدیل مستقیم) علاقه‌مند است، یک آزمایش ۴ هفته‌ای با بودجه حداقلی و تگ‌گذاری صحیح توصیه می‌شود.</p>
+        <div class="rec-meta"><span class="meta-chip">ریسک: متوسط</span><span class="meta-chip">اطمینان: پایین</span></div>
+      </div>
+    </div>
+  </section>
+  `;
+}
+
+/* ---------------- RECOMMENDATIONS TAB ---------------- */
+function panelRecommendations(){
+  return `
+  <section>
+    <div class="section-head"><h2>توصیه‌های اولویت‌بندی‌شده</h2><span class="hint">مرتب بر اساس اثر × سهولت اجرا</span></div>
+    <div class="grid grid-3">
+      ${recCard('۰','بررسی فوری گلوگاه تسویه‌حساب/درگاه پرداخت','از ۷۳۸ کاربری که کالا به سبد خرید افزوده‌اند، فقط ۱۹ نفر خرید را نهایی کرده‌اند (افت ۹۷.۴٪). این بحرانی‌ترین یافته کل گزارش است و مسئولیت آن با جانتک، نه یکتانت. اگر نرخ تکمیل خرید از ۲.۶٪ فعلی به ۱۰٪ برسد، از نظر ریاضی خرید موفق در همین حجم سبد می‌تواند نزدیک به ۴ برابر شود؛ تحقق این سناریو نیازمند اعتبارسنجی فنی/UX است.','اثر: بنیادین','سهولت: نامشخص (نیازمند بررسی فنی)','اطمینان: بالا (وجود مشکل)','افق: فوری — قبل از هر تصمیم بودجه‌ای دیگر')}
+      ${recCard(1,'اتصال تگ به رویدادهای واقعی کسب‌وکار','در حال حاضر «رخداد تگ» یک goal عمومی است که به ثبت‌نام، تکمیل سبد خرید یا فروش واقعی متصل نیست. بدون این اصلاح، هیچ تصمیم بودجه‌ای — حتی توصیه‌های همین گزارش — قابل اعتبارسنجی نهایی با فروش واقعی نیست.','اثر: بنیادین','سهولت: متوسط','اطمینان: قطعی','افق: فوری (پیش‌نیاز سایر توصیه‌ها)')}
+      ${recCard(2,'بازتخصیص تدریجی بودجه به کانال‌های پویا و همسان','آغاز با انتقال ۳۰ میلیون تومان از درون‌اپلیکیشن (به‌ویژه بله) به کانال پویا و همسان — دو کانالی که کمترین CPA رخداد تگ را دارند (۵,۹۳۷ و ۸,۹۴۷ تومان در برابر ۲۶,۳۴۵ تومان درون‌اپ). توجه: این افزایش صرفاً بالادست قیف را بهبود می‌دهد و مادامی‌که توصیه ۰ اجرا نشود، تضمینی برای افزایش خرید واقعی نیست.','اثر: بالا (مشروط به توصیه ۰)','سهولت: بالا','اطمینان: متوسط تا بالا','افق: ۲ تا ۴ هفته')}
+      ${recCard(3,'تداوم پخش بدون وقفه و پایش روزانه بودجه','ایجاد هشدار خودکار برای توقف غیرمنتظره کمپین (مشابه وقفه ۱۷ روزه خرداد) تا از هدررفت پتانسیل کانال با بهترین عملکرد جلوگیری شود.','اثر: بالا','سهولت: بالا','اطمینان: بالا','افق: فوری')}
+      ${recCard(4,'توقف رسمی کانال‌های ویدیویی و پیامکی','با CPA بین ۱۵۵ تا ۹۱۵ برابر کانال پویا و رهاشدگی عملی پس از سه هفته اول، ادامه این دو کانال بدون بازطراحی کامل توجیه اقتصادی ندارد.','اثر: متوسط','سهولت: بالا','اطمینان: بالا','افق: فوری')}
+      ${recCard(5,'هرس تدریجی ناشران ضعیف در هر دو کانال اصلی','کاهش تدریجی (نه توقف ناگهانی) بودجه ناشرانی مانند بله، rubika.ir و khorasannews که CPA به‌مراتب بالاتر از میانگین کانال دارند.','اثر: متوسط','سهولت: متوسط','اطمینان: متوسط','افق: ۴ تا ۶ هفته')}
+      ${recCard(6,'اتصال داده یکتانت به سفارش‌های واقعی سایت/اپ','تطبیق UTM و بازه‌های زمانی با سفارش‌های ثبت‌شده در سیستم فروش جانتک برای محاسبه ROAS و ارزش هر سفارش (AOV) — پیش‌نیاز نهایی‌ترین تصمیم افزایش بودجه در مقیاس بزرگ، حتی پس از رفع گلوگاه توصیه ۰.','اثر: بنیادین','سهولت: پایین (نیازمند همکاری فنی)','اطمینان: قطعی','افق: ۴ تا ۸ هفته')}
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>ماتریس اثر × سهولت اجرا</h2></div>
+    <div class="callout danger" style="margin-bottom:16px;">
+      <div class="ic">🛑</div>
+      <div><b>خارج از ماتریس — اولویت مطلق پیش از هر چیز</b>
+      <p>بررسی گلوگاه تسویه‌حساب/درگاه پرداخت (توصیه ۰) در هیچ‌کدام از ۴ خانه ماتریس زیر جا نمی‌گیرد چون سهولت اجرای آن نامشخص است (وابسته به یافته‌های فنی)، اما اثرش از همه توصیه‌های دیگر بنیادی‌تر است — چون بدون آن، اثر واقعی سایر توصیه‌ها روی فروش قابل‌سنجش نیست.</p></div>
+    </div>
+    <div class="card">
+      <div class="matrix">
+        <div class="matrix-cell q1"><h5>اثر بالا / سهولت بالا — اولویت اول</h5>
+          <span class="mchip">بازتخصیص بودجه به پویا</span>
+          <span class="mchip">افزایش بودجه همسان</span>
+          <span class="mchip">تداوم پخش بدون وقفه</span>
+          <span class="mchip">توقف ویدیویی/پیامکی</span>
+        </div>
+        <div class="matrix-cell q2"><h5>اثر بالا / سهولت پایین‌تر — برنامه‌ریزی‌شده</h5>
+          <span class="mchip">اتصال تگ به رویدادهای واقعی</span>
+          <span class="mchip">اتصال به سفارش‌های واقعی (ROAS/AOV)</span>
+        </div>
+        <div class="matrix-cell q3"><h5>اثر متوسط / سهولت بالا — اجرای سریع</h5>
+          <span class="mchip">هرس ناشران ضعیف</span>
+        </div>
+        <div class="matrix-cell q4"><h5>اثر متوسط / سهولت پایین — نیازمند بررسی بیشتر</h5>
+          <span class="mchip">آزمایش مجدد ویدیویی (در صورت هدف برندینگ)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>پیشنهاد تخصیص بودجه دوره بعد (بر پایه شواهد فعلی)</h2><span class="hint">فرض: بودجه کل بدون تغییر نسبت به دوره جاری</span></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>کانال</th><th>سهم فعلی</th><th>سهم آزمایشی پیشنهادی</th><th>منطق تغییر</th></tr></thead>
+      <tbody>
+        <tr><td>پویا</td><td class="num">52.9%</td><td class="num"><span class="chip chip-good">65–70% آزمایشی</span></td><td>بهترین CPA در داده فعلی؛ پیشنهاد صرفاً برای آزمون کنترل‌شده و مشروط به تأیید عملکرد در سطح خرید واقعی</td></tr>
+        <tr><td>درون‌اپلیکیشن</td><td class="num">36.5%</td><td class="num"><span class="chip chip-mid">18–22%</span></td><td>حفظ صرفاً ناشران با CPA زیر ۲۰ هزار تومان؛ کاهش شدید بله</td></tr>
+        <tr><td>همسان</td><td class="num">5.0%</td><td class="num"><span class="chip chip-good">8–10%</span></td><td>دومین CPA ارزان‌قیمت پس از پویا (۸,۹۴۷ تومان)؛ کاندیدای افزایش تدریجی در فاز آزمایشی</td></tr>
+        <tr><td>ویدیویی</td><td class="num">3.2%</td><td class="num"><span class="chip chip-bad">0%</span></td><td>توقف تا طراحی مجدد با هدف مشخص</td></tr>
+        <tr><td>پیامکی</td><td class="num">1.9%</td><td class="num"><span class="chip chip-bad">0%</span></td><td>توقف تا طراحی مجدد با هدف مشخص</td></tr>
+        <tr><td>محصول (ریتارگتینگ)</td><td class="num">0.6%</td><td class="num"><span class="chip chip-mid">2–3%</span></td><td>حجم کم مانع نتیجه‌گیری قطعی؛ حفظ به‌عنوان کانال retention کم‌هزینه</td></tr>
+      </tbody></table>
+    </div>
+    <div class="callout danger" style="margin-top:16px;">
+      <div class="ic">🛑</div>
+      <div><b>پیش‌نیاز مهم‌تر از هر بازتخصیصی</b>
+      <p>جدول بالا صرفاً تخصیص میان‌کانالی بودجه تبلیغاتی است. اما یافته این نسخه از گزارش نشان می‌دهد گلوگاه اصلی، بازتخصیص بودجه بین کانال‌ها نیست — رفع افت ۹۷.۴٪ بین سبد خرید و خرید در سمت جانتک است. تا وقتی این گلوگاه باز نباشد، هیچ‌ترکیب بودجه‌ای تضمین‌کننده افزایش فروش واقعی نیست.</p></div>
+    </div>
+    <p class="section-sub" style="margin-top:12px;">این جدول یک نقطه شروع تحلیلی و «سهم آزمایشی» است، نه بودجه نهایی. تخصیص قطعی باید پس از اجرای توصیه ۱ (اتصال تگ به رویداد واقعی) و مشاهده نتایج سناریوی بازتخصیص پلکانی صورت گیرد.</p>
+  </section>
+  `;
+}
+function recCard(n,title,body,m1,m2,m3,m4){
+  return `<div class="rec-card">
+    <div class="rank">${n}</div>
+    <h4>${title}</h4>
+    <p>${body}</p>
+    <div class="rec-meta"><span class="meta-chip">${m1}</span><span class="meta-chip">${m2}</span><span class="meta-chip">${m3}</span><span class="meta-chip">${m4}</span></div>
+  </div>`;
+}
+
+/* ---------------- APPENDIX TAB (future scenarios) ---------------- */
+function panelAppendix(){
+  return `
+  <section>
+    <div class="callout warning">
+      <div class="ic">⚠</div>
+      <div><b>چارچوب این بخش</b>
+      <p>در نبود داده درآمد و فروش واقعی، سناریوهای زیر بر مبنای بودجه، CPA و حجم تخمینی رویداد تگ ارائه شده‌اند — نه بازگشت مالی (ROI/ROAS). هرگونه تصمیم افزایش بودجه در مقیاس بزرگ باید پس از اجرای توصیه شماره ۱ (اتصال تگ به رویداد واقعی) و شماره ۶ (اتصال به سفارش واقعی) بازبینی شود.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>سه سناریوی بودجه فصل آینده</h2></div>
+    <div class="grid grid-3">
+      <div class="scenario-card">
+        <span class="stag" style="background:var(--text-faint);">محافظه‌کارانه</span>
+        <h4>حفظ بودجه فعلی، اصلاح ترکیب کانال</h4>
+        <div class="srow"><span class="k">بودجه کل ماهانه</span><span class="v num">~۲۰۰ میلیون تومان</span></div>
+        <div class="srow"><span class="k">ترکیب کانال</span><span class="v">طبق جدول تخصیص پیشنهادی</span></div>
+        <div class="srow"><span class="k">رویداد تگ برآوردی/ماه</span><span class="v num">~۲۷,۰۰۰–۳۰,۰۰۰</span></div>
+        <div class="srow"><span class="k">ریسک</span><span class="v">پایین</span></div>
+        <div class="srow"><span class="k">اطمینان</span><span class="v">متوسط تا بالا</span></div>
+        <div class="srow"><span class="k">محدودیت اصلی</span><span class="v" style="font-weight:600;">بدون تأیید اثر بر خرید واقعی؛ و بدون رفع گلوگاه سبد→خرید، رشد تبدیل بالادستی لزوماً به فروش نمی‌انجامد</span></div>
+      </div>
+      <div class="scenario-card base">
+        <span class="stag">پایه — پیشنهادی</span>
+        <h4>رفع گلوگاه خرید + پایش پیوسته + اصلاح تگ</h4>
+        <div class="srow"><span class="k">بودجه کل ماهانه</span><span class="v num">~۳۵۰ میلیون تومان</span></div>
+        <div class="srow"><span class="k">اقدام همزمان</span><span class="v">رفع فوری گلوگاه سبد→خرید + بازتخصیص پلکانی + تگ‌گذاری صحیح</span></div>
+        <div class="srow"><span class="k">رویداد تگ برآوردی/ماه</span><span class="v num">~۵۵,۰۰۰–۶۵,۰۰۰</span></div>
+        <div class="srow"><span class="k">ریسک</span><span class="v">پایین تا متوسط</span></div>
+        <div class="srow"><span class="k">اطمینان</span><span class="v">متوسط</span></div>
+        <div class="srow"><span class="k">محدودیت اصلی</span><span class="v" style="font-weight:600;">نتایج نهایی به کیفیت تگ‌گذاری جدید و موفقیت اصلاح درگاه پرداخت وابسته است</span></div>
+      </div>
+      <div class="scenario-card">
+        <span class="stag" style="background:var(--accent-dark);">رشد</span>
+        <h4>افزایش بودجه پویا پس از اثبات ROAS</h4>
+        <div class="srow"><span class="k">بودجه کل ماهانه</span><span class="v num">~۵۰۰ میلیون تومان (فقط پس از فاز پایه)</span></div>
+        <div class="srow"><span class="k">پیش‌نیاز الزامی</span><span class="v" style="font-weight:700; color:var(--danger);">تأیید ROAS مثبت با داده فروش واقعی</span></div>
+        <div class="srow"><span class="k">رویداد تگ برآوردی/ماه</span><span class="v">داده کافی برای برآورد عددی وجود ندارد</span></div>
+        <div class="srow"><span class="k">ریسک</span><span class="v">بالا در غیاب پیش‌نیاز</span></div>
+        <div class="srow"><span class="k">اطمینان</span><span class="v">پایین تا اثبات ROAS</span></div>
+        <div class="srow"><span class="k">محدودیت اصلی</span><span class="v" style="font-weight:600;">مقیاس‌گذاری بدون اثبات فروش، ریسک مالی غیرقابل توجیه</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>چه چیزی هنوز قابل اثبات نیست؟</h2></div>
+    <div class="callout warning">
+      <div class="ic">⚠</div>
+      <div><b>سه پرسش کلیدی که با داده فعلی پاسخ قطعی ندارند</b>
+      <p>
+        <strong>۱) اثر کمپین بر فروش کل:</strong> تعداد ۱۹ خرید ثبت شده، اما برای اثبات اثر افزایشی کمپین بر فروش کل، تطبیق با سفارش‌های واقعی سایت و مقایسه بازه‌های قبل/حین/بعد از کمپین لازم است.
+        <br><strong>۲) ROAS و سودآوری:</strong> ارزش تومانی سفارش‌ها و حاشیه سود در دسترس نیست؛ بنابراین سود واقعی و ROAS قابل اثبات نیست.
+        <br><strong>۳) سهم واقعی هر کانال از خرید:</strong> رویدادهای پایین قیف در سطح کل کمپین ثبت شده‌اند و هنوز به تفکیک کانال به خرید واقعی متصل نیستند؛ بنابراین نمی‌توان گفت کدام کانال مسئول ۱۹ خرید بوده است.
+      </p>
+      <p style="margin-top:8px;"><b>مسیر اثبات:</b> تطبیق داده‌های یکتانت با Matomo، Search Console و سفارش‌های واقعی جانتک، سپس تصمیم‌گیری برای مقیاس‌گذاری.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>چارچوب تصمیم‌گیری مدیریتی</h2></div>
+    <div class="card">
+      <div class="grid grid-4">
+        <div><b style="font-size:12.8px;">۱. چه اتفاقی افتاد؟</b><p class="section-sub" style="margin-top:8px;">۵۶۴.۸ میلیون تومان در ۶ کانال هزینه شد؛ ۷۳۸ سبد خرید ثبت شد اما فقط ۱۹ خرید نهایی شد؛ کانال پویا با کمترین بودجه نسبی، بیشترین سهم تبدیل شناخته‌شده را تولید کرد.</p></div>
+        <div><b style="font-size:12.8px;">۲. چرا این‌طور شد؟</b><p class="section-sub" style="margin-top:8px;">در سطح کانال، تفاوت بنیادین در کیفیت مخاطب و فرمت تبلیغ؛ اما گلوگاه اصلی در سطح قیف است — افت ۹۷.۴٪ بین سبد خرید و خرید، به‌احتمال زیاد ناشی از مشکل در تسویه‌حساب/درگاه پرداخت جانتک، نه کیفیت ترافیک.</p></div>
+        <div><b style="font-size:12.8px;">۳. بزرگ‌ترین فرصت کجاست؟</b><p class="section-sub" style="margin-top:8px;">رفع گلوگاه سبد خرید→خرید؛ حتی بهبود جزئی نرخ تکمیل خرید (از ۲.۶٪ به ۱۰٪) بدون افزایش بودجه تبلیغاتی، خرید را نزدیک به ۴ برابر می‌کند.</p></div>
+        <div><b style="font-size:12.8px;">۴. قدم بعدی چیست؟</b><p class="section-sub" style="margin-top:8px;">بررسی فوری فنی/UX درگاه پرداخت (اولویت اول)، هم‌زمان با اجرای توصیه تگ‌گذاری واقعی؛ شاخص اثبات موفقیت: نرخ تکمیل خرید از سبد + CPA بر مبنای خرید واقعی.</p></div>
+      </div>
+    </div>
+  </section>
+  `;
+}
+
+/* ---------------- FUNNEL RENDER ---------------- */
+function renderFunnel(){
+  const steps = [
+    {label:'نمایش تبلیغ (Impression)', val:DATA.totals.impr, conf:'tag-verified',confl:'تأییدشده'},
+    {label:'کلیک (Click)', val:DATA.totals.clicks, conf:'tag-verified',confl:'تأییدشده'},
+    {label:'سشن سایت/اپ (Session)', val:DATA.totals.sessions, conf:'tag-verified',confl:'تأییدشده'},
+    {label:'مشاهده جزئیات محصول', val:DATA.totals.product_view, conf:'tag-calc',confl:'ثبت‌شده در داده کمپین'},
+    {label:'ثبت‌نام موفق', val:DATA.totals.signup, conf:'tag-calc',confl:'ثبت‌شده در داده کمپین'},
+    {label:'افزودن به سبد خرید', val:DATA.totals.cart, conf:'tag-calc',confl:'ثبت‌شده در داده کمپین'},
+    {label:'خرید موفق', val:DATA.totals.purchase, conf:'tag-validate',confl:'بحرانی'}
+  ];
+  const max = steps[0].val;
+  const wrap = document.getElementById('funnelWrap');
+  wrap.innerHTML = steps.map((s,i)=>{
+    const w = Math.max(4, (s.val/max*100));
+    const rate = i>0 ? (s.val/steps[i-1].val*100).toFixed(2)+'% از مرحله قبل' : '';
+    const isLast = i===steps.length-1;
+    return `<div class="funnel-step">
+      <div class="funnel-meta"><b>${s.label}</b><span class="tag-badge ${s.conf}">${s.confl}</span></div>
+      <div class="funnel-bar num" style="width:${w}%;${isLast?'background:linear-gradient(90deg,var(--danger),#E57373);':''}">${fmt(s.val)}</div>
+      ${rate?`<div class="funnel-rate num" style="${isLast?'color:var(--danger); font-weight:800;':''}">${rate}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+/* ---------------- CHARTS ---------------- */
+Chart.defaults.font.family = "'Vazirmatn', Tahoma, sans-serif";
+Chart.defaults.color = '#5B6573';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+function initCharts(){
+  new Chart(document.getElementById('chartBudgetShare'), {
+    type:'doughnut',
+    data:{labels:DATA.channels.map(c=>c.name), datasets:[{data:DATA.channels.map(c=>c.cost), backgroundColor:DATA.channels.map(c=>PALETTE[c.key]), borderWidth:2, borderColor:'#fff'}]},
+    options:{plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:11}}}, tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmt(ctx.raw)+' تومان ('+(ctx.raw/DATA.totals.cost*100).toFixed(1)+'%)'}}}}
+  });
+  new Chart(document.getElementById('chartConvShare'), {
+    type:'doughnut',
+    data:{labels:DATA.channels.map(c=>c.name), datasets:[{data:DATA.channels.map(c=>c.tag), backgroundColor:DATA.channels.map(c=>PALETTE[c.key]), borderWidth:2, borderColor:'#fff'}]},
+    options:{plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:11}}}, tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmt(ctx.raw)+' رخداد ('+(ctx.raw/DATA.totals.tag*100).toFixed(1)+'%)'}}}}
+  });
+
+  const mainCh = DATA.channels.filter(c=>c.key==='pouya'||c.key==='inapp');
+  new Chart(document.getElementById('chartCPAMain'), {
+    type:'bar',
+    data:{labels:mainCh.map(c=>c.name), datasets:[{label:'CPA (تومان)', data:mainCh.map(c=>c.cpa), backgroundColor:mainCh.map(c=>PALETTE[c.key]), borderRadius:8, maxBarThickness:70}]},
+    options:{indexAxis:'y', plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>toman(ctx.raw)}}}, scales:{x:{ticks:{callback:v=>fmt(v)}}}}
+  });
+  const ltCh = DATA.channels.filter(c=>c.key==='video'||c.key==='sms'||c.key==='product');
+  new Chart(document.getElementById('chartCPALongtail'), {
+    type:'bar',
+    data:{labels:ltCh.map(c=>c.name), datasets:[{label:'CPA (تومان)', data:ltCh.map(c=>c.cpa), backgroundColor:ltCh.map(c=>PALETTE[c.key]), borderRadius:8, maxBarThickness:70}]},
+    options:{indexAxis:'y', plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>toman(ctx.raw)}}}, scales:{x:{ticks:{callback:v=>fmt(v)}}}}
+  });
+
+  const dp = DATA.daily_pouya;
+  new Chart(document.getElementById('chartDailyTrend'), {
+    type:'bar',
+    data:{labels:dp.map(r=>r.d), datasets:[
+      {type:'bar', label:'هزینه روزانه (تومان)', data:dp.map(r=>r.cost), backgroundColor:'rgba(11,31,51,.18)', borderRadius:3, yAxisID:'y', order:2},
+      {type:'line', label:'CPA روزانه (تومان)', data:dp.map(r=>r.cpa), borderColor:'#00A6A6', backgroundColor:'#00A6A6', tension:.25, spanGaps:true, pointRadius:2, yAxisID:'y1', order:1}
+    ]},
+    options:{interaction:{mode:'index', intersect:false}, plugins:{legend:{position:'bottom'}},
+      scales:{
+        x:{ticks:{maxRotation:90, minRotation:60, font:{size:9}}},
+        y:{position:'left', title:{display:true,text:'هزینه روزانه (تومان)',font:{size:10}}, ticks:{callback:v=>fmt(v)}},
+        y1:{position:'right', type:'logarithmic', title:{display:true,text:'CPA روزانه (تومان، مقیاس لگاریتمی)',font:{size:10}}, grid:{drawOnChartArea:false}, ticks:{callback:v=>fmt(v)}}
+      }}
+  });
+
+  new Chart(document.getElementById('chartVideoSmsDaily'), {
+    type:'bar',
+    data:{labels:DATA.video_daily.map(r=>r.d), datasets:[
+      {label:'ویدیویی', data:DATA.video_daily.map(r=>r.cost), backgroundColor:PALETTE.video, borderRadius:3},
+    ]},
+    options:{plugins:{legend:{position:'bottom'}}, scales:{x:{ticks:{font:{size:9}}}, y:{ticks:{callback:v=>fmt(v)}}}}
+  });
+  new Chart(document.getElementById('chartProductDaily'), {
+    type:'line',
+    data:{labels:DATA.product_daily.map(r=>r.d), datasets:[
+      {label:'محصول (ریتارگتینگ)', data:DATA.product_daily.map(r=>r.cost), borderColor:PALETTE.product, backgroundColor:'rgba(198,40,40,.12)', fill:true, tension:.3, pointRadius:2}
+    ]},
+    options:{plugins:{legend:{position:'bottom'}}, scales:{x:{ticks:{font:{size:9}}}, y:{ticks:{callback:v=>fmt(v)}}}}
+  });
+
+  const sr = DATA.scenarios_reallocate;
+  new Chart(document.getElementById('chartReallocate'), {
+    type:'bar',
+    data:{labels:sr.map(r=>fmt(r.shift)+' تومان'), datasets:[{label:'خالص افزایش رخداد تگ', data:sr.map(r=>r.net), backgroundColor:'#00A6A6', borderRadius:8}]},
+    options:{plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>'+'+fmt(ctx.raw)+' رخداد تگ خالص'}}}, scales:{y:{ticks:{callback:v=>fmt(v)}}}}
+  });
+}
+
+/* ---------------- BOOTSTRAP ---------------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderNav();
+  const panels = document.getElementById('panels');
+  const map = {summary:panelSummary, report1:panelReport1, report2:panelReport2, comparison:panelComparison, recommendations:panelRecommendations, appendix:panelAppendix};
+  panels.innerHTML = TABS.map((t,i)=>`<div class="tab-panel ${i===0?'active':''}" id="panel-${t.id}">${map[t.id]()}</div>`).join('');
+  renderFunnel();
+  initCharts();
+});
+
+</script>
+</body>
+</html>
